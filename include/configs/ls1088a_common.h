@@ -48,7 +48,7 @@
 /*
  * SMP Definitinos
  */
-#define CPU_RELEASE_ADDR		secondary_boot_func
+#define CPU_RELEASE_ADDR		secondary_boot_addr
 
 /* Size of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + 2048 * 1024)
@@ -162,9 +162,6 @@ unsigned long long get_qixis_addr(void);
 /* #define CONFIG_DISPLAY_CPUINFO */
 
 #ifndef SPL_NO_ENV
-/* Allow to overwrite serial and ethaddr */
-#define CONFIG_ENV_OVERWRITE
-
 /* Initial environment variables */
 #define CONFIG_EXTRA_ENV_SETTINGS		\
 	"hwconfig=fsl_ddr:bank_intlv=auto\0"	\

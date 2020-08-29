@@ -455,7 +455,7 @@ static int smc911x_initialize_mii(struct smc911x_priv *priv)
 }
 #endif
 
-static int smc911x_init(struct eth_device *dev, bd_t *bd)
+static int smc911x_init(struct eth_device *dev, struct bd_info *bd)
 {
 	struct smc911x_priv *priv = container_of(dev, struct smc911x_priv, dev);
 
@@ -612,7 +612,7 @@ static int smc911x_ofdata_to_platdata(struct udevice *dev)
 	struct smc911x_priv *priv = dev_get_priv(dev);
 	struct eth_pdata *pdata = dev_get_platdata(dev);
 
-	pdata->iobase = devfdt_get_addr(dev);
+	pdata->iobase = dev_read_addr(dev);
 	priv->iobase = pdata->iobase;
 
 	return 0;

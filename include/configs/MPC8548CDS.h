@@ -21,7 +21,6 @@
 #undef CONFIG_PCI2
 #define CONFIG_SYS_PCI_64BIT	1	/* enable 64-bit PCI resources */
 
-#define CONFIG_ENV_OVERWRITE
 #define CONFIG_INTERRUPTS		/* enable pci, srio, ddr interrupts */
 
 #define CONFIG_FSL_VIA
@@ -374,7 +373,6 @@ extern unsigned long get_clock_freq(void);
 #endif
 
 #if defined(CONFIG_PCI)
-#undef CONFIG_TULIP
 
 #if !defined(CONFIG_DM_PCI)
 #define CONFIG_FSL_PCI_INIT		1	/* Use common FSL init code */

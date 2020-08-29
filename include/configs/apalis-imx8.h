@@ -18,8 +18,6 @@
 #define USDHC2_BASE_ADDR		0x5b020000
 #define CONFIG_SUPPORT_EMMC_BOOT	/* eMMC specific */
 
-#define CONFIG_ENV_OVERWRITE
-
 #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 
 /* Networking */
@@ -82,10 +80,6 @@
 #define CONFIG_SYS_LOAD_ADDR		CONFIG_LOADADDR
 
 #define CONFIG_SYS_INIT_SP_ADDR		0x80200000
-
-/* Environment in eMMC, before config block at the end of 1st "boot sector" */
-#define CONFIG_SYS_MMC_ENV_DEV		0	/* USDHC1 eMMC */
-#define CONFIG_SYS_MMC_ENV_PART		1
 
 #define CONFIG_SYS_MMC_IMG_LOAD_PART	1
 

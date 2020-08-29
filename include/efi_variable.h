@@ -10,6 +10,16 @@
 
 #define EFI_VARIABLE_READ_ONLY BIT(31)
 
+enum efi_auth_var_type {
+	EFI_AUTH_VAR_NONE = 0,
+	EFI_AUTH_VAR_PK,
+	EFI_AUTH_VAR_KEK,
+	EFI_AUTH_VAR_DB,
+	EFI_AUTH_VAR_DBX,
+	EFI_AUTH_VAR_DBT,
+	EFI_AUTH_VAR_DBR,
+};
+
 /**
  * efi_get_variable() - retrieve value of a UEFI variable
  *
@@ -83,6 +93,10 @@ efi_status_t efi_query_variable_info_int(u32 attributes,
 
 #define EFI_VAR_BUF_SIZE 0x4000
 
+/*
+ * This constant identifies the file format for storing UEFI variables in
+ * struct efi_var_file.
+ */
 #define EFI_VAR_FILE_MAGIC 0x0161566966456255 /* UbEfiVa, version 1 */
 
 /**
@@ -106,7 +120,7 @@ struct efi_var_entry {
  * struct efi_var_file - file for storing UEFI variables
  *
  * @reserved:	unused, may be overwritten by memory probing
- * @magic:	identifies file format
+ * @magic:	identifies file format, takes value %EFI_VAR_FILE_MAGIC
  * @length:	length including header
  * @crc32:	CRC32 without header
  * @var:	variables
@@ -127,6 +141,30 @@ struct efi_var_file {
  * Return:	status code
  */
 efi_status_t efi_var_to_file(void);
+
+/**
+ * efi_var_collect() - collect variables in buffer
+ *
+ * A buffer is allocated and filled with variables in a format ready to be
+ * written to disk.
+ *
+ * @bufp:		pointer to pointer of buffer with collected variables
+ * @lenp:		pointer to length of buffer
+ * @check_attr_mask:	bitmask with required attributes of variables to be collected.
+ *                      variables are only collected if all of the required
+ *                      attributes are set.
+ * Return:		status code
+ */
+efi_status_t __maybe_unused efi_var_collect(struct efi_var_file **bufp, loff_t *lenp,
+					    u32 check_attr_mask);
+
+/**
+ * efi_var_restore() - restore EFI variables from buffer
+ *
+ * @buf:	buffer
+ * Return:	status code
+ */
+efi_status_t efi_var_restore(struct efi_var_file *buf);
 
 /**
  * efi_var_from_file() - read variables from file
@@ -194,5 +232,78 @@ efi_status_t efi_var_mem_ins(u16 *variable_name,
  * Return:	maximum data size plus variable name size
  */
 u64 efi_var_mem_free(void);
+
+/**
+ * efi_init_secure_state - initialize secure boot state
+ *
+ * Return:	status code
+ */
+efi_status_t efi_init_secure_state(void);
+
+/**
+ * efi_auth_var_get_type() - convert variable name and guid to enum
+ *
+ * @name:	name of UEFI variable
+ * @guid:	guid of UEFI variable
+ * Return:	identifier for authentication related variables
+ */
+enum efi_auth_var_type efi_auth_var_get_type(u16 *name, const efi_guid_t *guid);
+
+/**
+ * efi_get_next_variable_name_mem() - Runtime common code across efi variable
+ *                                    implementations for GetNextVariable()
+ *                                    from the cached memory copy
+ * @variable_name_size:	size of variable_name buffer in byte
+ * @variable_name:	name of uefi variable's name in u16
+ * @vendor:		vendor's guid
+ *
+ * Return: status code
+ */
+efi_status_t __efi_runtime
+efi_get_next_variable_name_mem(efi_uintn_t *variable_name_size, u16 *variable_name,
+			       efi_guid_t *vendor);
+/**
+ * efi_get_variable_mem() - Runtime common code across efi variable
+ *                          implementations for GetVariable() from
+ *                          the cached memory copy
+ *
+ * @variable_name:	name of the variable
+ * @vendor:		vendor GUID
+ * @attributes:		attributes of the variable
+ * @data_size:		size of the buffer to which the variable value is copied
+ * @data:		buffer to which the variable value is copied
+ * @timep:		authentication time (seconds since start of epoch)
+ * Return:		status code
+ */
+efi_status_t __efi_runtime
+efi_get_variable_mem(u16 *variable_name, const efi_guid_t *vendor, u32 *attributes,
+		     efi_uintn_t *data_size, void *data, u64 *timep);
+
+/**
+ * efi_get_variable_runtime() - runtime implementation of GetVariable()
+ *
+ * @variable_name:	name of the variable
+ * @guid:		vendor GUID
+ * @attributes:		attributes of the variable
+ * @data_size:		size of the buffer to which the variable value is copied
+ * @data:		buffer to which the variable value is copied
+ * Return:		status code
+ */
+efi_status_t __efi_runtime EFIAPI
+efi_get_variable_runtime(u16 *variable_name, const efi_guid_t *guid,
+			 u32 *attributes, efi_uintn_t *data_size, void *data);
+
+/**
+ * efi_get_next_variable_name_runtime() - runtime implementation of
+ *					  GetNextVariable()
+ *
+ * @variable_name_size:	size of variable_name buffer in byte
+ * @variable_name:	name of uefi variable's name in u16
+ * @guid:		vendor's guid
+ * Return:              status code
+ */
+efi_status_t __efi_runtime EFIAPI
+efi_get_next_variable_name_runtime(efi_uintn_t *variable_name_size,
+				   u16 *variable_name, efi_guid_t *guid);
 
 #endif

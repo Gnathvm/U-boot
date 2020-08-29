@@ -214,16 +214,6 @@
 
 #define CONFIG_SYS_QE_FW_ADDR	0x67f40000
 
-/*
- * Environment
- */
-
-#define CONFIG_ENV_OVERWRITE
-
-#if defined(CONFIG_SD_BOOT)
-#define CONFIG_SYS_MMC_ENV_DEV	0
-#endif
-
 #define CONFIG_OF_BOARD_SETUP
 #define CONFIG_OF_STDOUT_VIA_ALIAS
 

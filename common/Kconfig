@@ -403,6 +403,7 @@ config BOOTCOMMAND
 
 config USE_PREBOOT
 	bool "Enable preboot"
+	default "usb start" if USB_KEYBOARD
 	help
 	  When this option is enabled, the existence of the environment
 	  variable "preboot" will be checked immediately before starting the
@@ -633,6 +634,23 @@ config SYS_STDIO_DEREGISTER
 	  are never deactivated. But if a stdio device is used which can be
 	  removed (for example a USB keyboard) then this option can be
 	  enabled to ensure this is handled correctly.
+
+config SPL_SYS_STDIO_DEREGISTER
+	bool "Allow deregistering stdio devices in SPL"
+	help
+	  Generally there is no need to deregister stdio devices since they
+	  are never deactivated. But if a stdio device is used which can be
+	  removed (for example a USB keyboard) then this option can be
+	  enabled to ensure this is handled correctly. This is very rarely
+	  needed in SPL.
+
+config SYS_DEVICE_NULLDEV
+	bool "Enable a null device for stdio"
+	default y if SPLASH_SCREEN || SYS_STDIO_DEREGISTER
+	help
+	  Enable creation of a "nulldev" stdio device. This allows silent
+	  operation of the console by setting stdout to "nulldev". Enable
+	  this to use a serial console under board control.
 
 endmenu
 
@@ -985,7 +1003,7 @@ config HASH
 
 config AVB_VERIFY
 	bool "Build Android Verified Boot operations"
-	depends on LIBAVB && FASTBOOT
+	depends on LIBAVB
 	depends on PARTITION_UUIDS
 	help
 	  This option enables compilation of bootloader-dependent operations,
@@ -993,6 +1011,24 @@ config AVB_VERIFY
 	    * Helpers to process strings in order to build OS bootargs.
 	    * Helpers to access MMC, similar to drivers/fastboot/fb_mmc.c.
 	    * Helpers to alloc/init/free avb ops.
+
+if AVB_VERIFY
+
+config AVB_BUF_ADDR
+	hex "Define AVB buffer address"
+	default FASTBOOT_BUF_ADDR
+	help
+	  AVB requires a buffer for memory transactions. This variable defines the
+	  buffer address.
+
+config AVB_BUF_SIZE
+	hex "Define AVB buffer SIZE"
+	default FASTBOOT_BUF_SIZE
+	help
+	  AVB requires a buffer for memory transactions. This variable defines the
+	  buffer size.
+
+endif # AVB_VERIFY
 
 config SPL_HASH
 	bool # "Support hashing API (SHA1, SHA256, etc.)"

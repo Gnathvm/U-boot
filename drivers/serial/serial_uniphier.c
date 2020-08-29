@@ -115,7 +115,7 @@ static int uniphier_serial_probe(struct udevice *dev)
 	fdt_addr_t base;
 	u32 tmp;
 
-	base = devfdt_get_addr(dev);
+	base = dev_read_addr(dev);
 	if (base == FDT_ADDR_T_NONE)
 		return -EINVAL;
 
@@ -137,7 +137,7 @@ static int uniphier_serial_probe(struct udevice *dev)
 
 	priv->uartclk = clk_data->clk_rate;
 
-	/* flush the trasmitter empty before changing hw setting */
+	/* flush the trasmitter before changing hw setting */
 	while (!(readl(priv->membase + UNIPHIER_UART_LSR) & UART_LSR_TEMT))
 		;
 

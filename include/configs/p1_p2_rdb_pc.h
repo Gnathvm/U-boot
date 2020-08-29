@@ -212,8 +212,6 @@
 #define CONFIG_PCIE2	/* PCIE controller 2 (slot 2) */
 #define CONFIG_SYS_PCI_64BIT	/* enable 64-bit PCI resources */
 
-#define CONFIG_ENV_OVERWRITE
-
 #define CONFIG_SYS_SATA_MAX_DEVICE	2
 #define CONFIG_LBA48
 
@@ -697,7 +695,6 @@
  */
 #if defined(CONFIG_SDCARD)
 #define CONFIG_FSL_FIXED_MMC_LOCATION
-#define CONFIG_SYS_MMC_ENV_DEV	0
 #elif defined(CONFIG_MTD_RAW_NAND)
 #define CONFIG_ENV_RANGE	(3 * CONFIG_ENV_SIZE)
 #ifdef CONFIG_TPL_BUILD

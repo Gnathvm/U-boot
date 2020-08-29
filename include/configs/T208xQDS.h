@@ -28,7 +28,6 @@
 
 #define CONFIG_SYS_FSL_CPC	/* Corenet Platform Cache */
 #define CONFIG_SYS_NUM_CPC	CONFIG_SYS_NUM_DDR_CTLRS
-#define CONFIG_ENV_OVERWRITE
 
 #ifdef CONFIG_RAMBOOT_PBL
 #define CONFIG_SYS_FSL_PBL_PBI board/freescale/t208xqds/t208x_pbi.cfg
@@ -113,11 +112,6 @@
 #ifdef CONFIG_DDR_ECC
 #define CONFIG_ECC_INIT_VIA_DDRCONTROLLER
 #define CONFIG_MEM_INIT_VALUE		0xdeadbeef
-#endif
-
-#if defined(CONFIG_SPIFLASH)
-#elif defined(CONFIG_SDCARD)
-#define CONFIG_SYS_MMC_ENV_DEV	0
 #endif
 
 #ifndef __ASSEMBLY__
@@ -632,7 +626,6 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC85xx_ESDHC_ADDR
 #define CONFIG_SYS_FSL_ESDHC_BROKEN_TIMEOUT
 #define CONFIG_SYS_FSL_MMC_HAS_CAPBLT_VS33
-#define CONFIG_FSL_ESDHC_ADAPTER_IDENT
 #endif
 
 /*

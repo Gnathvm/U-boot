@@ -154,6 +154,17 @@ config IMX_RGPIO2P
 	help
 	  This driver supports i.MX7ULP Rapid GPIO2P controller.
 
+config IPROC_GPIO
+	bool "Broadcom iProc GPIO driver(without pinconf)"
+	default n
+	help
+	  The Broadcom iProc based SoCs- Cygnus, NS2, NS3, NSP and Stingray,
+	  use the same GPIO Controller IP hence this driver could be used
+	  for all.
+
+	  The Broadcom iProc based SoCs have multiple GPIO controllers and only
+	  the always-ON GPIO controller (CRMU/AON) is supported by this driver.
+
 config HSDK_CREG_GPIO
 	bool "HSDK CREG GPIO griver"
 	depends on DM_GPIO
@@ -335,6 +346,16 @@ config PIC32_GPIO
 	help
 	  Say yes here to support Microchip PIC32 GPIOs.
 
+config OCTEON_GPIO
+	bool "Octeon II/III/TX/TX2 GPIO driver"
+	depends on DM_GPIO && DM_PCI &&	(ARCH_OCTEON || ARCH_OCTEONTX || ARCH_OCTEONTX2)
+	default y
+	help
+	  Add support for the Marvell Octeon GPIO driver. This is used with
+	  various Octeon parts such as Octeon II/III and OcteonTX/TX2.
+	  Octeon II/III has 32 GPIOs (count defined via DT) and OcteonTX/TX2
+	  has 64 GPIOs (count defined via internal register).
+
 config STM32_GPIO
 	bool "ST STM32 GPIO driver"
 	depends on DM_GPIO && (ARCH_STM32 || ARCH_STM32MP)
@@ -360,8 +381,8 @@ config MVEBU_GPIO
 
 config ZYNQ_GPIO
 	bool "Zynq GPIO driver"
-	depends on DM_GPIO && (ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_VERSAL)
-	default y
+	depends on DM_GPIO
+	default y if ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_VERSAL
 	help
 	  Supports GPIO access on Zynq SoC.
 
@@ -456,5 +477,14 @@ config MT7621_GPIO
 	default y
 	help
 	  Say yes here to support MediaTek MT7621 compatible GPIOs.
+
+config NX_GPIO
+	bool "Nexell GPIO driver"
+	depends on DM_GPIO
+	help
+	  Support GPIO access on Nexell SoCs. The GPIOs are arranged into
+	  a number of banks (different for each SoC type) each with 32 GPIOs.
+	  The GPIOs for a device are defined in the device tree with one node
+	  for each bank.
 
 endmenu

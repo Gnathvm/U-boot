@@ -49,7 +49,6 @@
 /*
  * U-Boot environment configurations
  */
-#define CONFIG_SYS_MMC_ENV_DEV		0	/* device 0 */
 
 /*
  * QSPI support
@@ -194,7 +193,6 @@ unsigned int cm_get_l4_sys_free_clk_hz(void);
 					- CONFIG_SYS_SPL_MALLOC_SIZE)
 
 /* SPL SDMMC boot support */
-#define CONFIG_SYS_MMCSD_FS_BOOT_PARTITION	1
 #define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME		"u-boot.img"
 
 #endif	/* __CONFIG_SOCFPGA_SOC64_COMMON_H__ */

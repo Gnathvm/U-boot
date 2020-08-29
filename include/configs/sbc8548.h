@@ -51,8 +51,6 @@
 #define CONFIG_SYS_PCI_64BIT    1	/* enable 64-bit PCI resources */
 #endif
 
-#define CONFIG_ENV_OVERWRITE
-
 #define CONFIG_INTERRUPTS		/* enable pci, srio, ddr interrupts */
 
 /*
@@ -432,7 +430,6 @@
 #endif
 
 #if defined(CONFIG_PCI)
-#undef CONFIG_TULIP
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
 

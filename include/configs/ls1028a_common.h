@@ -7,7 +7,6 @@
 #define __L1028A_COMMON_H
 
 #define CONFIG_REMAKE_ELF
-#define CONFIG_FSL_LAYERSCAPE
 #define CONFIG_MP
 
 #include <asm/arch/stream_id_lsch3.h>
@@ -29,7 +28,7 @@
 /*
  * SMP Definitinos
  */
-#define CPU_RELEASE_ADDR		secondary_boot_func
+#define CPU_RELEASE_ADDR		secondary_boot_addr
 
 /* Generic Timer Definitions */
 #define COUNTER_FREQUENCY		25000000	/* 25MHz */
@@ -57,9 +56,6 @@
 
 #define CONFIG_HWCONFIG
 #define HWCONFIG_BUFFER_SIZE		128
-
-/* Allow to overwrite serial and ethaddr */
-#define CONFIG_ENV_OVERWRITE
 
 #define BOOT_TARGET_DEVICES(func) \
 	func(MMC, mmc, 0) \
@@ -95,7 +91,6 @@
 #define CONFIG_SYS_FSL_MMC_HAS_CAPBLT_VS33
 #endif
 
-#define CONFIG_SYS_MMC_ENV_DEV         0
 #define OCRAM_NONSECURE_SIZE		0x00010000
 #define CONFIG_SYS_FSL_QSPI_BASE	0x20000000
 

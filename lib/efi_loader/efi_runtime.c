@@ -144,6 +144,8 @@ efi_status_t efi_init_runtime_supported(void)
  *
  * At runtime memcpy() is not available.
  *
+ * Overlapping memory areas can be copied safely if src >= dest.
+ *
  * @dest:	destination buffer
  * @src:	source buffer
  * @n:		number of bytes to copy
@@ -363,7 +365,9 @@ out:
  * efi_reset_system() - reset system
  *
  * This function implements the ResetSystem() runtime service after
- * SetVirtualAddressMap() is called. It only executes an endless loop.
+ * SetVirtualAddressMap() is called. As this placeholder cannot reset the
+ * system it simply return to the caller.
+ *
  * Boards may override the helpers below to implement reset functionality.
  *
  * See the Unified Extensible Firmware Interface (UEFI) specification for
@@ -379,8 +383,7 @@ void __weak __efi_runtime EFIAPI efi_reset_system(
 			efi_status_t reset_status,
 			unsigned long data_size, void *reset_data)
 {
-	/* Nothing we can do */
-	while (1) { }
+	return;
 }
 
 /**

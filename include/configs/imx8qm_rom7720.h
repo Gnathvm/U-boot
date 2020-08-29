@@ -24,8 +24,6 @@
 
 #define CONFIG_SUPPORT_EMMC_BOOT	/* eMMC specific */
 
-#define CONFIG_ENV_OVERWRITE
-
 #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 /* FUSE command */
 
@@ -137,8 +135,6 @@
 #define CONFIG_ENV_SPI_CS	CONFIG_SF_DEFAULT_CS
 #define CONFIG_ENV_SPI_MODE	CONFIG_SF_DEFAULT_MODE
 #define CONFIG_ENV_SPI_MAX_HZ	CONFIG_SF_DEFAULT_SPEED
-#else
-#define CONFIG_SYS_MMC_ENV_PART		0	/* user area */
 #endif
 
 #define CONFIG_SYS_MMC_IMG_LOAD_PART	1
@@ -147,7 +143,6 @@
  * USDHC3 is for SD on base board On DDR4 board, USDHC1 is mux for NAND,
  * USDHC2 is for SD, USDHC3 is for SD on base board
  */
-#define CONFIG_SYS_MMC_ENV_DEV		2   /* USDHC3 */
 #define CONFIG_MMCROOT			"/dev/mmcblk2p2"  /* USDHC3 */
 #define CONFIG_SYS_FSL_USDHC_NUM	3
 

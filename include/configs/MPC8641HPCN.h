@@ -43,8 +43,6 @@
 #define CONFIG_FSL_PCI_INIT	1	/* Use common FSL init code */
 #define CONFIG_SYS_PCI_64BIT	1	/* enable 64-bit PCI resources */
 
-#define CONFIG_ENV_OVERWRITE
-
 #define CONFIG_BAT_RW		1	/* Use common BAT rw code */
 
 #define CONFIG_ALTIVEC		1
@@ -330,7 +328,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
 
-#undef CONFIG_TULIP
 
 /************************************************************
  * USB support

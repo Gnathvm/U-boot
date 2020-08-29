@@ -28,6 +28,7 @@ obj-$(CONFIG_SYS_I2C_LPC32XX) += lpc32xx_i2c.o
 obj-$(CONFIG_SYS_I2C_MESON) += meson_i2c.o
 obj-$(CONFIG_SYS_I2C_MVTWSI) += mvtwsi.o
 obj-$(CONFIG_SYS_I2C_MXC) += mxc_i2c.o
+obj-$(CONFIG_SYS_I2C_NEXELL) += nx_i2c.o
 obj-$(CONFIG_SYS_I2C_OCTEON) += octeon_i2c.o
 obj-$(CONFIG_SYS_I2C_OMAP24XX) += omap24xx_i2c.o
 obj-$(CONFIG_SYS_I2C_RCAR_I2C) += rcar_i2c.o
@@ -45,4 +46,4 @@ obj-$(CONFIG_SYS_I2C_VERSATILE) += i2c-versatile.o
 obj-$(CONFIG_SYS_I2C_XILINX_XIIC) += xilinx_xiic.o
 obj-$(CONFIG_TEGRA186_BPMP_I2C) += tegra186_bpmp_i2c.o
 
-obj-$(CONFIG_I2C_MUX) += muxes/
+obj-$(CONFIG_$(SPL_)I2C_MUX) += muxes/

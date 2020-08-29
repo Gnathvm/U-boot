@@ -14,6 +14,7 @@
 #include <dm/device-internal.h>
 #include <dm/test.h>
 #include <dm/uclass-internal.h>
+#include <test/test.h>
 #include <test/ut.h>
 
 struct keyboard_test_data {
@@ -33,7 +34,7 @@ static int dm_test_usb_base(struct unit_test_state *uts)
 
 	return 0;
 }
-DM_TEST(dm_test_usb_base, DM_TESTF_SCAN_PDATA | DM_TESTF_SCAN_FDT);
+DM_TEST(dm_test_usb_base, UT_TESTF_SCAN_PDATA | UT_TESTF_SCAN_FDT);
 
 /*
  * Test that we can use the flash stick. This is more of a functional test. It
@@ -60,7 +61,7 @@ static int dm_test_usb_flash(struct unit_test_state *uts)
 
 	return 0;
 }
-DM_TEST(dm_test_usb_flash, DM_TESTF_SCAN_PDATA | DM_TESTF_SCAN_FDT);
+DM_TEST(dm_test_usb_flash, UT_TESTF_SCAN_PDATA | UT_TESTF_SCAN_FDT);
 
 /* test that we can handle multiple storage devices */
 static int dm_test_usb_multi(struct unit_test_state *uts)
@@ -76,7 +77,7 @@ static int dm_test_usb_multi(struct unit_test_state *uts)
 
 	return 0;
 }
-DM_TEST(dm_test_usb_multi, DM_TESTF_SCAN_PDATA | DM_TESTF_SCAN_FDT);
+DM_TEST(dm_test_usb_multi, UT_TESTF_SCAN_PDATA | UT_TESTF_SCAN_FDT);
 
 /* test that we have an associated ofnode with the usb device */
 static int dm_test_usb_fdt_node(struct unit_test_state *uts)
@@ -98,7 +99,7 @@ static int dm_test_usb_fdt_node(struct unit_test_state *uts)
 
 	return 0;
 }
-DM_TEST(dm_test_usb_fdt_node, DM_TESTF_SCAN_PDATA | DM_TESTF_SCAN_FDT);
+DM_TEST(dm_test_usb_fdt_node, UT_TESTF_SCAN_PDATA | UT_TESTF_SCAN_FDT);
 
 static int count_usb_devices(void)
 {
@@ -142,7 +143,7 @@ static int dm_test_usb_stop(struct unit_test_state *uts)
 
 	return 0;
 }
-DM_TEST(dm_test_usb_stop, DM_TESTF_SCAN_PDATA | DM_TESTF_SCAN_FDT);
+DM_TEST(dm_test_usb_stop, UT_TESTF_SCAN_PDATA | UT_TESTF_SCAN_FDT);
 
 /**
  * dm_test_usb_keyb() - test USB keyboard driver
@@ -434,4 +435,4 @@ static int dm_test_usb_keyb(struct unit_test_state *uts)
 
 	return 0;
 }
-DM_TEST(dm_test_usb_keyb, DM_TESTF_SCAN_PDATA | DM_TESTF_SCAN_FDT);
+DM_TEST(dm_test_usb_keyb, UT_TESTF_SCAN_PDATA | UT_TESTF_SCAN_FDT);

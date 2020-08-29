@@ -33,7 +33,6 @@
 #define CONFIG_SYS_BOOTMAPSZ		0x10000000
 
 /* Serial console */
-#define CONFIG_MXC_UART
 #define CONFIG_MXC_UART_BASE		UART1_BASE /* select UART1/UART2 */
 
 /* Framebuffer */
@@ -65,11 +64,6 @@
 #define CONFIG_USBD_HS
 #endif /* CONFIG_CMD_USB_MASS_STORAGE */
 #endif /* CONFIG_CMD_USB      */
-
-/* Environment organization */
-#define CONFIG_SYS_MMC_ENV_DEV		2 /* overwritten on SD boot */
-#define CONFIG_SYS_MMC_ENV_PART		1 /* overwritten on SD boot */
-#define CONFIG_ENV_OVERWRITE
 
 #define CONFIG_BOARD_SIZE_LIMIT		392192 /* (CONFIG_ENV_OFFSET - 1024) */
 

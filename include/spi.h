@@ -13,8 +13,8 @@
 #include <linux/bitops.h>
 
 /* SPI mode flags */
-#define SPI_CPHA	BIT(0)			/* clock phase */
-#define SPI_CPOL	BIT(1)			/* clock polarity */
+#define SPI_CPHA	BIT(0)	/* clock phase (1 = SPI_CLOCK_PHASE_SECOND) */
+#define SPI_CPOL	BIT(1)	/* clock polarity (1 = SPI_POLARITY_HIGH) */
 #define SPI_MODE_0	(0|0)			/* (original MicroWire) */
 #define SPI_MODE_1	(0|SPI_CPHA)
 #define SPI_MODE_2	(SPI_CPOL|0)
@@ -146,8 +146,6 @@ struct spi_slave {
 #define SPI_XFER_BEGIN		BIT(0)	/* Assert CS before transfer */
 #define SPI_XFER_END		BIT(1)	/* Deassert CS after transfer */
 #define SPI_XFER_ONCE		(SPI_XFER_BEGIN | SPI_XFER_END)
-#define SPI_XFER_MMAP		BIT(2)	/* Memory Mapped start */
-#define SPI_XFER_MMAP_END	BIT(3)	/* Memory Mapped End */
 };
 
 /**

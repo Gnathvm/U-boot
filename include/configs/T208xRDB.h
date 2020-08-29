@@ -22,7 +22,6 @@
 
 #define CONFIG_SYS_FSL_CPC	/* Corenet Platform Cache */
 #define CONFIG_SYS_NUM_CPC	CONFIG_SYS_NUM_DDR_CTLRS
-#define CONFIG_ENV_OVERWRITE
 
 #ifdef CONFIG_RAMBOOT_PBL
 #define CONFIG_SYS_FSL_PBL_PBI board/freescale/t208xrdb/t2080_pbi.cfg
@@ -95,11 +94,6 @@
 #ifdef CONFIG_DDR_ECC
 #define CONFIG_ECC_INIT_VIA_DDRCONTROLLER
 #define CONFIG_MEM_INIT_VALUE		0xdeadbeef
-#endif
-
-#if defined(CONFIG_SPIFLASH)
-#elif defined(CONFIG_SDCARD)
-#define CONFIG_SYS_MMC_ENV_DEV	0
 #endif
 
 #ifndef __ASSEMBLY__

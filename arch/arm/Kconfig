@@ -64,6 +64,8 @@ endif
 
 config GIC_V3_ITS
 	bool "ARM GICV3 ITS"
+	select REGMAP
+	select SYSCON
 	help
 	  ARM GICV3 Interrupt translation service (ITS).
 	  Basic support for programming locality specific peripheral
@@ -501,23 +503,6 @@ config TPL_USE_ARCH_MEMSET
 	  Such an implementation may be faster under some conditions
 	  but may increase the binary size.
 
-config SET_STACK_SIZE
-	bool "Enable an option to set max stack size that can be used"
-	default y if ARCH_VERSAL || ARCH_ZYNQMP || ARCH_ZYNQ
-	help
-	  This will enable an option to set max stack size that can be
-	  used by U-Boot.
-
-config STACK_SIZE
-	hex "Define max stack size that can be used by U-Boot"
-	depends on SET_STACK_SIZE
-	default 0x4000000 if ARCH_VERSAL || ARCH_ZYNQMP
-	default 0x1000000 if ARCH_ZYNQ
-	help
-	  Define Max stack size that can be used by U-Boot so that the
-	  initrd_high will be calculated as base stack pointer minus this
-	  stack size.
-
 config ARM64_SUPPORT_AARCH32
 	bool "ARM64 system support AArch32 execution state"
 	depends on ARM64
@@ -732,6 +717,15 @@ config TARGET_BCMNS2
 	  ARMv8 Cortex-A57 processors targeting a broad range of networking
 	  applications.
 
+config TARGET_BCMNS3
+	bool "Support Broadcom NS3"
+	select ARM64
+	select BOARD_LATE_INIT
+	help
+	  Support for Broadcom Northstar 3 SoCs. NS3 is a octo-core 64-bit
+	  ARMv8 Cortex-A72 processors targeting a broad range of networking
+	  applications.
+
 config ARCH_EXYNOS
 	bool "Samsung EXYNOS"
 	select DM
@@ -765,6 +759,17 @@ config ARCH_INTEGRATOR
 	select DM
 	select DM_SERIAL
 	select PL01X_SERIAL
+	imply CMD_DM
+
+config ARCH_IPQ40XX
+	bool "Qualcomm IPQ40xx SoCs"
+	select CPU_V7A
+	select DM
+	select DM_GPIO
+	select DM_SERIAL
+	select PINCTRL
+	select CLK
+	select OF_CONTROL
 	imply CMD_DM
 
 config ARCH_KEYSTONE
@@ -888,7 +893,7 @@ config ARCH_MX7
 config ARCH_MX6
 	bool "Freescale MX6"
 	select CPU_V7A
-	select SYS_FSL_HAS_SEC if IMX_HAB
+	select SYS_FSL_HAS_SEC
 	select SYS_FSL_SEC_COMPAT_4
 	select SYS_FSL_SEC_LE
 	imply MXC_GPIO
@@ -904,6 +909,11 @@ config ARCH_MX5
 	select BOARD_EARLY_INIT_F
 	select CPU_V7A
 	imply MXC_GPIO
+
+config ARCH_NEXELL
+	bool "Nexell S5P4418/S5P6818 SoC"
+	select ENABLE_ARM_SOC_BOOT0_HOOK
+	select DM
 
 config ARCH_OWL
 	bool "Actions Semi OWL SoCs"
@@ -1075,6 +1085,7 @@ config ARCH_VERSAL
 	select DM_SERIAL
 	select OF_CONTROL
 	imply BOARD_LATE_INIT
+	imply ENV_VARS_UBOOT_RUNTIME_CONFIG
 
 config ARCH_VF610
 	bool "Freescale Vybrid"
@@ -1110,6 +1121,7 @@ config ARCH_ZYNQ
 	imply CMD_CLK
 	imply CMD_DM
 	imply CMD_SPL
+	imply ENV_VARS_UBOOT_RUNTIME_CONFIG
 	imply FAT_WRITE
 
 config ARCH_ZYNQMP_R5
@@ -1149,6 +1161,7 @@ config ARCH_ZYNQMP
 	select ZYNQMP_IPI
 	imply BOARD_LATE_INIT
 	imply CMD_DM
+	imply ENV_VARS_UBOOT_RUNTIME_CONFIG
 	imply FAT_WRITE
 	imply MP
 	imply DM_USB_GADGET
@@ -1184,6 +1197,15 @@ config TARGET_VEXPRESS64_JUNO
 	select BLK
 	select USB
 	select DM_USB
+
+config TARGET_TOTAL_COMPUTE
+	bool "Support Total Compute Platform"
+	select ARM64
+	select PL01X_SERIAL
+	select DM
+	select DM_SERIAL
+	select DM_MMC
+	select DM_GPIO
 
 config TARGET_LS2080A_EMU
 	bool "Support ls2080a_emu"
@@ -1715,6 +1737,24 @@ config ARCH_ROCKCHIP
 	imply TPL_SYSRESET
 	imply USB_FUNCTION_FASTBOOT
 
+config ARCH_OCTEONTX
+	bool "Support OcteonTX SoCs"
+	select DM
+	select ARM64
+	select OF_CONTROL
+	select OF_LIVE
+	select BOARD_LATE_INIT
+	select SYS_CACHE_SHIFT_7
+
+config ARCH_OCTEONTX2
+	bool "Support OcteonTX2 SoCs"
+	select DM
+	select ARM64
+	select OF_CONTROL
+	select OF_LIVE
+	select BOARD_LATE_INIT
+	select SYS_CACHE_SHIFT_7
+
 config TARGET_THUNDERX_88XX
 	bool "Support ThunderX 88xx"
 	select ARM64
@@ -1739,6 +1779,14 @@ config TARGET_PRESIDIO_ASIC
 	bool "Support Cortina Presidio ASIC Platform"
 	select ARM64
 
+config TARGET_XENGUEST_ARM64
+	bool "Xen guest ARM64"
+	select ARM64
+	select XEN
+	select OF_CONTROL
+	select LINUX_KERNEL_IMAGE_HEADER
+	select XEN_SERIAL
+	select SSCANF
 endchoice
 
 config ARCH_SUPPORT_TFABOOT
@@ -1793,6 +1841,8 @@ source "arch/arm/mach-highbank/Kconfig"
 
 source "arch/arm/mach-integrator/Kconfig"
 
+source "arch/arm/mach-ipq40xx/Kconfig"
+
 source "arch/arm/mach-k3/Kconfig"
 
 source "arch/arm/mach-keystone/Kconfig"
@@ -1802,6 +1852,10 @@ source "arch/arm/mach-kirkwood/Kconfig"
 source "arch/arm/mach-lpc32xx/Kconfig"
 
 source "arch/arm/mach-mvebu/Kconfig"
+
+source "arch/arm/mach-octeontx/Kconfig"
+
+source "arch/arm/mach-octeontx2/Kconfig"
 
 source "arch/arm/cpu/armv7/ls102xa/Kconfig"
 
@@ -1879,11 +1933,17 @@ source "arch/arm/cpu/armv8/Kconfig"
 
 source "arch/arm/mach-imx/Kconfig"
 
+source "arch/arm/mach-nexell/Kconfig"
+
+source "board/armltd/total_compute/Kconfig"
+
 source "board/bosch/shc/Kconfig"
 source "board/bosch/guardian/Kconfig"
 source "board/CarMediaLab/flea3/Kconfig"
 source "board/Marvell/aspenite/Kconfig"
 source "board/Marvell/gplugd/Kconfig"
+source "board/Marvell/octeontx/Kconfig"
+source "board/Marvell/octeontx2/Kconfig"
 source "board/armadeus/apf27/Kconfig"
 source "board/armltd/vexpress/Kconfig"
 source "board/armltd/vexpress64/Kconfig"
@@ -1896,6 +1956,7 @@ source "board/broadcom/bcm968580xref/Kconfig"
 source "board/broadcom/bcmcygnus/Kconfig"
 source "board/broadcom/bcmnsp/Kconfig"
 source "board/broadcom/bcmns2/Kconfig"
+source "board/broadcom/bcmns3/Kconfig"
 source "board/cavium/thunderx/Kconfig"
 source "board/cirrus/edb93xx/Kconfig"
 source "board/eets/pdu001/Kconfig"
@@ -1925,6 +1986,7 @@ source "board/hisilicon/hikey/Kconfig"
 source "board/hisilicon/hikey960/Kconfig"
 source "board/hisilicon/poplar/Kconfig"
 source "board/isee/igep003x/Kconfig"
+source "board/myir/mys_6ulx/Kconfig"
 source "board/spear/spear300/Kconfig"
 source "board/spear/spear310/Kconfig"
 source "board/spear/spear320/Kconfig"
@@ -1938,7 +2000,9 @@ source "board/vscom/baltos/Kconfig"
 source "board/xilinx/Kconfig"
 source "board/xilinx/zynq/Kconfig"
 source "board/xilinx/zynqmp/Kconfig"
+source "board/xilinx/versal/Kconfig"
 source "board/phytium/durian/Kconfig"
+source "board/xen/xenguest_arm64/Kconfig"
 
 source "arch/arm/Kconfig.debug"
 

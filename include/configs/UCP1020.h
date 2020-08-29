@@ -32,9 +32,6 @@
 #define FWENV_TYPE	FWENV_NOR_FLASH
 
 #if (FWENV_TYPE == FWENV_MMC)
-#ifndef CONFIG_SYS_MMC_ENV_DEV
-#define CONFIG_SYS_MMC_ENV_DEV 1
-#endif
 #define FWENV_ADDR1 -1
 #define FWENV_ADDR2 -1
 #define FWENV_ADDR3 -1
@@ -147,8 +144,6 @@
 #ifndef CONFIG_SYS_MONITOR_BASE
 #define CONFIG_SYS_MONITOR_BASE	CONFIG_SYS_TEXT_BASE	/* start of monitor */
 #endif
-
-#define CONFIG_ENV_OVERWRITE
 
 #define CONFIG_SYS_SATA_MAX_DEVICE	2
 #define CONFIG_LBA48
@@ -369,7 +364,6 @@
  */
 #if !defined(CONFIG_ENV_FIT_UCBOOT) && defined(CONFIG_RAMBOOT_SDCARD)
 #define CONFIG_FSL_FIXED_MMC_LOCATION
-#define CONFIG_SYS_MMC_ENV_DEV	0
 #endif
 
 #define CONFIG_LOADS_ECHO		/* echo on for serial download */

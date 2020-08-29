@@ -16,6 +16,7 @@ CONFIG_DISTRO_DEFAULTS=y
 CONFIG_FIT=y
 CONFIG_SPL_LOAD_FIT=y
 CONFIG_SPL_FIT_SOURCE="board/dhelectronics/dh_stm32mp1/u-boot-dhcom.its"
+# CONFIG_USE_SPL_FIT_GENERATOR is not set
 CONFIG_BOOTCOMMAND="run bootcmd_stm32mp"
 CONFIG_BOARD_EARLY_INIT_F=y
 CONFIG_SPL_LEGACY_IMAGE_SUPPORT=y
@@ -56,6 +57,7 @@ CONFIG_CMD_REGULATOR=y
 CONFIG_CMD_EXT4_WRITE=y
 CONFIG_CMD_MTDPARTS=y
 # CONFIG_SPL_DOS_PARTITION is not set
+CONFIG_OF_LIST="stm32mp15xx-dhcom-pdk2 stm32mp15xx-dhcom-drc02"
 CONFIG_OF_SPL_REMOVE_PROPS="interrupts interrupt-names interrupts-extended interrupt-controller \\\#interrupt-cells interrupt-parent dmas dma-names assigned-clocks assigned-clock-rates assigned-clock-parents hwlocks"
 CONFIG_ENV_IS_IN_SPI_FLASH=y
 CONFIG_USE_ENV_SPI_BUS=y
@@ -112,6 +114,7 @@ CONFIG_PINCTRL_STMFX=y
 CONFIG_DM_PMIC=y
 # CONFIG_SPL_PMIC_CHILDREN is not set
 CONFIG_PMIC_STPMIC1=y
+CONFIG_DM_REGULATOR=y
 CONFIG_DM_REGULATOR_FIXED=y
 CONFIG_DM_REGULATOR_GPIO=y
 CONFIG_DM_REGULATOR_STM32_VREFBUF=y

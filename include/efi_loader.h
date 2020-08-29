@@ -631,6 +631,8 @@ efi_status_t efi_dp_from_name(const char *dev, const char *devnr,
 			      const char *path,
 			      struct efi_device_path **device,
 			      struct efi_device_path **file);
+ssize_t efi_dp_check_length(const struct efi_device_path *dp,
+			    const size_t maxlen);
 
 #define EFI_DP_TYPE(_dp, _type, _subtype) \
 	(((_dp)->type == DEVICE_PATH_TYPE_##_type) && \
@@ -717,7 +719,10 @@ struct efi_load_option {
 efi_status_t efi_deserialize_load_option(struct efi_load_option *lo, u8 *data,
 					 efi_uintn_t *size);
 unsigned long efi_serialize_load_option(struct efi_load_option *lo, u8 **data);
-efi_status_t efi_bootmgr_load(efi_handle_t *handle);
+efi_status_t efi_set_load_options(efi_handle_t handle,
+				  efi_uintn_t load_options_size,
+				  void *load_options);
+efi_status_t efi_bootmgr_load(efi_handle_t *handle, void **load_options);
 
 /**
  * efi_image_regions - A list of memory regions
@@ -770,13 +775,16 @@ struct pkcs7_message;
 
 bool efi_signature_lookup_digest(struct efi_image_regions *regs,
 				 struct efi_signature_store *db);
-bool efi_signature_verify_one(struct efi_image_regions *regs,
-			      struct pkcs7_message *msg,
-			      struct efi_signature_store *db);
-bool efi_signature_verify_with_sigdb(struct efi_image_regions *regs,
-				     struct pkcs7_message *msg,
-				     struct efi_signature_store *db,
-				     struct efi_signature_store *dbx);
+bool efi_signature_verify(struct efi_image_regions *regs,
+			  struct pkcs7_message *msg,
+			  struct efi_signature_store *db,
+			  struct efi_signature_store *dbx);
+static inline bool efi_signature_verify_one(struct efi_image_regions *regs,
+					    struct pkcs7_message *msg,
+					    struct efi_signature_store *db)
+{
+	return efi_signature_verify(regs, msg, db, NULL);
+}
 bool efi_signature_check_signers(struct pkcs7_message *msg,
 				 struct efi_signature_store *dbx);
 

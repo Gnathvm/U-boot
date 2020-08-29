@@ -17,7 +17,6 @@
 #define CONFIG_FSL_PCI_INIT	1	/* use common fsl pci init code */
 #define CONFIG_PCI_INDIRECT_BRIDGE 1	/* indirect PCI bridge support */
 #define CONFIG_SYS_PCI_64BIT	1	/* enable 64-bit PCI resources */
-#define CONFIG_ENV_OVERWRITE
 
 #ifndef __ASSEMBLY__
 extern unsigned long get_clock_freq(void);
@@ -288,7 +287,6 @@ extern unsigned long get_clock_freq(void);
 #endif /* CONFIG_QE */
 
 #if defined(CONFIG_PCI)
-#undef CONFIG_TULIP
 
 #undef CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
 #define CONFIG_SYS_PCI_SUBSYS_VENDORID 0x1057  /* Motorola */

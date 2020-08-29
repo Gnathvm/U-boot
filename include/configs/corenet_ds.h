@@ -59,12 +59,9 @@
 #define CONFIG_PCIE2			/* PCIE controller 2 */
 #define CONFIG_SYS_PCI_64BIT		/* enable 64-bit PCI resources */
 
-#define CONFIG_ENV_OVERWRITE
-
 #if defined(CONFIG_SPIFLASH)
 #elif defined(CONFIG_SDCARD)
 #define CONFIG_FSL_FIXED_MMC_LOCATION
-#define CONFIG_SYS_MMC_ENV_DEV          0
 #endif
 
 #define CONFIG_SYS_CLK_FREQ	get_board_sys_clk() /* sysclk for MPC85xx */
